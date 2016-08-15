@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Pet Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content= "width= device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+
+			//ajax call for loading data and then appending it
+			$.ajax({
+			  url:JSONURL,
+			  success: function(data){
+				//data is all the JSON that is returned from the AJAX call
+				  readDataAndAppend(data);
+			  }
+		  })
+
+			//on submission of the html form, get the data
+			$("#pet-form").submit(function(event){
+				event.preventDefault();
+				var data = $(this).serialize();
+				console.log(data)
+
+			$.ajax({
+				url: 'https://script.google.com/macros/s/AKfycby07Ia4X-CyyQJXp1kaKqmTF1cLMx-qnvuuIkNY3atpavmVq7ja/exec',
+			  type: "POST",
+				  data: data
+			});
+			
+			})
+
+
+
+		})
+
+		//global variable for url needed to access Google Spreadsheet data as JSON
+		var JSONURL = 'https://spreadsheets.google.com/feeds/list/1UOlsom_8WhFGG6gYZfRAsFw3T0Sx9ftQvJVHVsVwBs4/1/public/basic?alt=json';
+		//https://docs.google.com/spreadsheets/d/1UOlsom_8WhFGG6gYZfRAsFw3T0Sx9ftQvJVHVsVwBs4/edit?usp=sharing
+
+
+		function readDataAndAppend(data){
+			var rows = [];
+			var cells = data.feed.entry;
+			
+			for (var i = 0; i < cells.length; i++){
+				var rowObj = {};
+				rowObj.timestamp = cells[i].title.$t;
+				var rowCols = cells[i].content.$t.split(',');
+				for (var j = 0; j < rowCols.length; j++){
+					var keyVal = rowCols[j].split(':');
+					rowObj[keyVal[0].trim()] = keyVal[1].trim();
+				}
+				rows.push(rowObj);
+			}
+
+
+			//code to parse through rows array and grab the data you need, and append it 
+			for (var i = 0; i < rows.length; i++) {
+				//rename rows[i] just to make sure I know what I am working with
+				var petObject = rows[i];
+
+				//turn all of the data into html strings
+				var name = "<h3>" + petObject.name + "</h3>"
+				var description = "<p>" + petObject.description + "</p>"
+				var breed = "<p>" + petObject.breed + "</p>"
+				var species = "<p>" + petObject.species + "</p>"
+				var scanned = "<p>" + petObject.scanned + "</p>"
+				var contact = "<p>" + petObject.contact + "</p>"
+				var location = "<p>" + petObject.location + "</p>"
+
+
+				//add all the strings together into an html string that gets appended to a div that already exists on my HTML
+				//$("#my-pets").append(name + description + breed + species + scanned)//
+			}
+		}
+
+	</script>	
+	<script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 14
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+			
+			//document.write(pos);
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Your Location');
+            map.setCenter(pos);
+			
+			var mydiv = document.getElementById("location");
+			var para = document.createElement("p");
+			var myText = document.createTextNode(position.coords.latitude + ", " + position.coords.longitude);
+			para.appendChild(myText);
+			mydiv.appendChild(para);
+			
+			var myloca = document.getElementById("myloc");
+			myloca.value = (position.coords.latitude + ", " + position.coords.longitude);
+			
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+	 
+	 /*function printpos() {
+		//document.write('test');
+		navigator.geolocation.getCurrentPosition(function(position) {
+            var mypos = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+				}
+			var mydiv = document.getElementById("location");
+			var para = document.createElement("p");
+			var myText = document.createTextNode("helloWorld");
+			para.appendChild(myText);
+			mydiv.appendChild(para);
+		}
+	}*/
+
+  </script>		
+  <style>
+  body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: #f5f6f7;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+      background-color: #D4F0E4; /* Light teal */
+      color: #2f2f2f;
+  }
+  .bg-2 { 
+      background-color: #474e5d; /* Dark Blue */
+      color: #ffffff;
+  }
+  .bg-3 { 
+      background-color:  #001a33; /* Black Gray */
+      color: #555555;
+  }
+  .bg-4 { 
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+  }
+  .container-fluid {
+      padding: 50px 30px
+  }
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+      color: #D4F0E4; !important;
+  }
+  
+  input {
+	color: black;
+  }
+  .form {
+	padding: 20px;
+  }
+  .heading {
+	color: #ffffff;
+  }
+  #map {
+	width: 100%;
+	height: 400px;
+  }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="mainpage.html">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="lost_map.html">Lost a Pet?</a></li>
+        <li><a href="found_profile.html">Found a Pet?</a></li>
+        <li><a href="more_information.html">More Information</a></li>
+		<li><a href="about_us.html"> About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin">Upload Image</h3>
+  <a href = "image_uploader.html"> Upload</a>
+  <!--a href="C:\Users\GirlsWhoCode\Documents\NotepadProjects\PetProject\imageuploader1.html"><img src="upload.jpg" style="width:40px;height:40px;border:0;"/></a-->
+</div>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2 text-center">
+  <section id = "my-pets">
+		<h1> Pet Information </h1>
+	</section>
+	<div class="form">
+	<section> 
+		<form id="pet-form">
+				  name:<br>
+				  <input type="text" name="name"><br>
+				  description:<br>
+				  <input type="text" name="fur_color" ><br>
+				  breed:<br>
+				  <input type="text" name="breed"><br>
+				  species:<br>
+				  <input type="text" name="species"><br>
+				  scanned:<br>
+				  <input type="text" name="scanned"><br>
+				  contact:<br>
+				  <input type="text" name="contact"><br>
+				  location:<br>
+				  <input id = "myloc" type="text" name="location"><br>
+				  <input type="submit" value="Submit">
+		</form>
+ 	</section> 
+	</div>
+</div>
+
+<!-- Third Container -->
+<div class="container-fluid bg-3 text-center">
+<h1 class="heading">Location</h1>
+<div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2zXhmISfCCiO8wBDFluZfdXZwoPM9DTk&callback=initMap">
+    </script>
+	<div id="location"></div>
+</div>
+
+</body>
+</html>

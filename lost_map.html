@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Lost Pets Map</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content= "width= device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<script>
+	//database script
+	var locations = [];
+		
+		$(document).ready(function() {
+
+			//ajax call for loading data and then appending it
+			$.ajax({
+			  url:JSONURL,
+			  success: function(data){
+				//data is all the JSON that is returned from the AJAX call
+				  readDataAndAppend(data);
+			  }
+		  })
+
+			//on submission of the html form, get the data
+			$("#pet-form").submit(function(event){
+				event.preventDefault();
+				var data = $(this).serialize();
+				console.log(data)
+
+			$.ajax({
+				url: 'https://script.google.com/macros/s/AKfycby07Ia4X-CyyQJXp1kaKqmTF1cLMx-qnvuuIkNY3atpavmVq7ja/exec',
+			  type: "POST",
+				  data: data
+			});
+			
+			})
+
+		})
+
+		//global variable for url needed to access Google Spreadsheet data as JSON
+		var JSONURL = 'https://spreadsheets.google.com/feeds/list/1UOlsom_8WhFGG6gYZfRAsFw3T0Sx9ftQvJVHVsVwBs4/1/public/basic?alt=json';
+		//https://docs.google.com/spreadsheets/d/1UOlsom_8WhFGG6gYZfRAsFw3T0Sx9ftQvJVHVsVwBs4/edit?usp=sharing
+		
+
+		function readDataAndAppend(data){
+			var rows = [];
+			var cells = data.feed.entry;
+			
+			for (var i = 0; i < cells.length; i++){
+				var rowObj = {};
+				rowObj.timestamp = cells[i].title.$t;
+				var rowCols = cells[i].content.$t.split(',');
+				for (var j = 0; j < rowCols.length; j++){
+					var keyVal = rowCols[j].split(':');
+					rowObj[keyVal[0].trim()] = keyVal[1].trim();
+				}
+				rows.push(rowObj);
+			}
+
+
+			//code to parse through rows array and grab the data you need, and append it 
+			for (var i = 0; i < rows.length; i++) {
+				//rename rows[i] just to make sure I know what I am working with
+				var petObject = rows[i];
+
+				//turn all of the data into html strings
+				var latitude = "<p>" + petObject.latitude + "</p>"
+				var longitude = "<p>" + petObject.longitude + "</p>"
+				var number = "<p>" + petObject.number + "</p>"
+				
+				var mylist = [petObject.name, petObject.latitude, petObject.longitude, petObject.number];
+				locations.push(mylist);
+				//$("#pet-latitude").append(latitude)
+				//$("#pet-longitude").append(longitude)
+				$("#pet-locations").append(locations)
+				//$("#pet-latitude").append([[1, 2, 3], [4, 5, 6]])
+
+
+				//add all the strings together into an html string that gets appended to a div that already exists on my HTML
+				//
+
+				//$("#my-pets").append(name + description + breed + species + scanned)
+				//document.write(locations);
+			}
+			//document.write(locations);
+			var par = document.getElementById("invisible");
+			par.value = locations;
+			initMap();
+		}
+
+      // Geolocation Script
+	  //document.write(locations);
+      function initMap() {
+		/*var testlocations = [
+		  ['Bondi Beach', -33.890542, 151.274856, 4],
+		  ['Coogee Beach', -33.923036, 151.259052, 5],
+		  ['Cronulla Beach', -34.028249, 151.157507, 3],
+		  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+		  ['Maroubra Beach', -33.950198, 151.259302, 1]
+		];*/
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 47.5, lng: -122},
+          zoom: 5
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+		//document.write('test');
+	
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+			
+			infoWindow.setPosition(pos);
+            infoWindow.setContent('Your Location');
+            map.setCenter(pos);
+			
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+		var infowindow = new google.maps.InfoWindow();
+		
+		var pa = document.getElementById("invisible");
+		var testlocations = pa.value;
+		
+		var marker, i;
+		for (i = 0; i < locations.length; i++) {  
+				marker = new google.maps.Marker({
+				position: new google.maps.LatLng(testlocations[i][1], testlocations[i][2]),
+				map: map
+			});
+
+		google.maps.event.addListener(marker, 'click', (function(marker, i) {
+			return function() {
+			  var infocontent = testlocations[i][0] + "hello"
+			  infowindow.setContent(infocontent);
+			  infowindow.open(map, marker);
+			  
+			}
+		  })(marker, i));
+		}
+		  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			infoWindow.setPosition(pos);
+			infoWindow.setContent(browserHasGeolocation ?
+								  'Error: The Geolocation service failed.' :
+								  'Error: Your browser doesn\'t support geolocation.');
+      }
+      }
+	
+	 
+
+</script>
+  <style>
+  body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: #f5f6f7;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+      background-color: #1abc9c; /* Green */
+      color: #ffffff;
+  }
+  .bg-2 { 
+      background-color: #474e5d; /* Dark Blue */
+      color: #ffffff;
+  }
+  .bg-3 { 
+      background-color: #ffffff; /* White */
+      color: #555555;
+  }
+  .bg-4 { 
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+  }
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+      color: #1abc9c !important;
+  }
+  
+  input {
+	color: black;
+  }
+  
+  html, body {
+        height: 200px;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+		width: 100%;
+        height: 500px;
+      }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="mainpage.html">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="lost_map.html">Lost a Pet?</a></li>
+        <li><a href="found_profile.html">Found a Pet?</a></li>
+        <li><a href="more_information.html">More Information</a></li>
+		<li><a href="about_us.html">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin">Looking For Your Pet?</h3>
+  <!--section id="pet-locations"></section-->
+  <p id="locs"></p>
+</div>
+
+
+<div id="invisible" value = ""></p>
+<!-- Third Container -->
+<div class="container-fluid bg-3 text-center">
+<div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2zXhmISfCCiO8wBDFluZfdXZwoPM9DTk&callback=initMap">
+    </script>
+	<div id="location"></div>
+</div>
+<script>
+
+</script>
+</body>
+</html>

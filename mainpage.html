@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="petmain.css">  
+
+<title>Find Your Pet by Happy Pets Society</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 100%;
+      margin: auto;
+  }
+  </style>
+  
+<style>
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+      color: #1abc9c !important;
+  }
+</style>
+
+<title>Demo W3.CSS</title>
+
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="petmain.css">
+</head>
+<!--body style="background-color:#d4f0e4!;"-->
+<body>
+<!-- Side Navigation -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="mainpage.html">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="lost_map.html">Lost a Pet?</a></li>
+        <li><a href="found_profile.html">Found a Pet?</a></li>
+        <li><a href="more_information.html">More Information</a></li>
+		<li><a href="about_us.html">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<nav class="w3-sidenav w3-white w3-card-2 w3-animate-left" style="display:none" id="mySidenav">
+  <h1 class="w3-xxxlarge w3-text-teal">Side Navigation</h1>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-xxxlarge w3-text-theme">Close <i class="fa fa-remove"></i></a>
+  <h3 class="w3-xxxlarge w3-text-dark-grey"><a href="lost_map.html">Lost an Animal?</a>
+  <a href="found_profile.html">Found an Animal?</a>
+  <a href="more_information.html">More Information</a>
+  <a href="about_us.html">About Us</a></h3>
+</nav>
+
+
+<!-- Header -->
+<header>
+<div class="container">
+<div class="header">        
+<h1 class="w3-xxxlarge w3-text-dark-grey" id="myHeader"></h1>
+  <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-opennav"></i>
+  <div class="w3-left">
+  <img src= "pet logo wo bg.png" alt="HPS Logo" height="200" width="175"> 
+  <h1 class="title-text w3-xxxlarge w3-animate-bottom">FIND YOUR PET</h1>
+    <div class="w3-padding-32">
+    </div>
+  </div>
+</div>
+</div>
+</header>
+
+<div class="w3-row-padding w3-center w3-margin-top">
+<div class="w3-third">
+  <div class="w3-card-2 w3-padding-top" style="min-height:430px">
+  <h2 class="w3-xxlarge w3-text-turq"><a href="lost_map.html">Lost an Animal?</a></h2><br>
+  <img src="puppy.png" alt="Puppy" height="175" width="175"> 
+  <p></p> <font color="#757575">
+  <p>Did you lose an animal?</p>
+  <p></p>
+  <p>Easily search in the local area with our map! </p></font>
+  </div>
+</div>
+
+<div class="w3-third">
+  <div class="w3-card-2 w3-padding-top" style="min-height:430px">
+   <h2 class="w3-xxlarge w3-text-turq"><a href="found_profile.html">Found an Animal?</a></h2><br>
+  <img src="kitten.jpg" alt="Kitten" height="175" width="175"> 
+  <p></p> <font color="#757575">
+  <p>Did you find a lost animal?</p>
+  <p></p>
+  <p>Fill out a profile for it!</p></font>
+  </div>
+</div>
+
+<div class="w3-third">
+  <div class="w3-card-2 w3-padding-top " style="min-height:430px">
+   <h2 class="w3-xxlarge w3-text-turq"><a href="more_information.html">More Information</a></h2><br>
+  <img src="extra pets.png" alt="Puppy and Bunny" height="175" width="175"> 
+  <p></p>  <font color="#757575">
+  <p>DIYs</p>
+  <p>Food</p>
+  <p>Nearby Shelters</p>
+  <p>Safety</p>
+  </font>
+  </div>
+</div>
+<br>
+</div>
+
+<div class="container">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+	  <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="http://www.cats2love.com/images/cats-2-love-slide-1.jpg" alt="Kittens" >
+		<div class="carousel-caption">
+             <a href = "found_profile.html"><h3>Found Pets</h3></a>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="http://uandpet.com/wp-content/uploads/2015/04/what-shots-do-puppies-need.jpg" alt="Puppies">
+		<div class="carousel-caption">
+             <a href ="http://www.petmd.com/dog/parasites/evr_dg_does_my_dog_have_fleas"><h3>Puppy Safety</h3></a>
+        </div>
+	  </div>
+    
+      <div class="item">
+        <img src="http://mydogoutlet.com/wp-content/uploads/2015/11/ALL4_1200_TINS_PUPPIES.jpg" alt="Kittens">
+		<div class="carousel-caption">
+            <a href="https://www.google.com/maps/search/adoption+/@47.6429269,-122.1369761,12z/data=!3m1!4b1!4m8!2m7!3m6!1sadoption+!2sMotley+Zoo+Animal+Rescue,+16715+Cleveland+Street,+Redmond,+WA+98052!3s0x549073b53dcea759:0x21f958e25fa7bb08!4m2!1d-122.1170635!2d47.6718883"><h3>Adoption Centers</h3></a>
+        </div>
+	  </div>
+
+      <div class="item">
+        <img src="http://www.knoxvilleveterinaryclinic.com/images/content/services/kittens-cats.jpg" alt="Kittens">
+		<div class="carousel-caption">
+             <a href="http://barkpost.com/diy-projects-for-dog-lovers/"><h3>Pet DIYs</h3></a>
+        </div>
+	  </div>
+   
+	  <div class="item">
+        <img src="http://uandpet.com/wp-content/uploads/2015/04/how-often-should-you-feed-a-puppy.jpg" alt="Puppy">
+		<div class="carousel-caption">
+			 <a href="http://www.humanesociety.org/animals/resources/tips/foods_poisonous_to_pets.html"><h3>Dietary Recommendations for Puppies</h3></a>
+        </div>
+	  </div>
+   
+	  <div class="item">
+        <img src="http://www.knoxvilleveterinaryclinic.com/images/content/services/puppies-dogs.jpg" alt="Puppies">
+		<div class="carousel-caption">
+             <a href="lost_map.html"><h3>Lost Pets</h3></a>
+        </div>
+	  </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+ 
+	</div>
+</div>
+
+
+
+<hr>
+
+<br>
+
+<!-- Footer -->
+<footer class="w3-container w3-theme-dark w3-padding-16">
+   <p><a>.</a></p>
+  <div style="position:relative;bottom:55px;" class="w3-tooltip w3-right">
+    <span class="w3-text w3-theme-light w3-padding">Go To Top</span> 
+    <a class="w3-text-white" href="#myHeader"><span class="w3-xlarge">
+    <i class="fa fa-chevron-circle-up"></i></span></a>
+  </div>
+  </footer>
+
+<!-- Script for Sidenav, Tabs, Accordions, Progress bars and slideshows -->
+<script>
+// Side navigation
+function w3_open() {
+    var x = document.getElementById("mySidenav");
+    x.style.width = "100%";
+    x.style.textAlign = "center";
+    x.style.fontSize = "50px";
+    x.style.paddingTop = "10%";
+    x.style.display = "block";
+}
+function w3_close() {
+    document.getElementById("mySidenav").style.display = "none";
+}
+
+// Tabs
+function openCity(evt, cityName) {
+  var i;
+  var x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  var activebtn = document.getElementsByClassName("testbtn");
+  for (i = 0; i < x.length; i++) {
+      activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " w3-dark-grey";
+}
+
+var mybtn = document.getElementsByClassName("testbtn")[0];
+mybtn.click();
+
+// Accordions
+function myAccFunc(id) {
+    var x = document.getElementById(id);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-dark-grey";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+        x.previousElementSibling.className =
+        x.previousElementSibling.className.replace(" w3-dark-grey", "");
+    }
+}
+
+// Slideshows
+var slideIndex = 1;
+
+function plusDivs(n) {
+slideIndex = slideIndex + n;
+showDivs(slideIndex);
+}
+
+function showDivs(n) {
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length} ;
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
+
+showDivs(1);
+
+// Progress Bars
+function move() {
+  var elem = document.getElementById("myBar");
+  var width = 1;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width == 100) {
+      clearInterval(id);
+    } else {
+      width++;
+      elem.style.width = width + '%';
+      document.getElementById("demoprgr").innerHTML = width * 1  + '%';
+    }
+  }
+}
+</script>
+
+
+</body>
+</html>
+
